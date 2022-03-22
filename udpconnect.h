@@ -30,6 +30,9 @@ using namespace std;
 #define SEND_UNFILT_PHASE_DATA          ((char)0x04)
 #define SEND_PHASE_DATA                 ((char)0x05)
 
+
+//这是一行添加的注释
+
 class UDPConnect :public QObject
 {
     Q_OBJECT

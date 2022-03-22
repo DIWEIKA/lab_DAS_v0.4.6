@@ -43,10 +43,10 @@ UDPConnect::UDPConnect(const Config *cfig, int& sendsize):
 }
 
 UDPConnect::UDPConnect(shared_ptr<GetConfig> gcfg, shared_ptr<CirQueue<float>> saveque):
+     is_saveData(false),
     UDPgcfg(gcfg),
     saveDataQue(saveque),
     hasNextFilename(false),
-    is_saveData(false),
     onceSaveNum(gcfg->getConfig_freqency() / 10 * 3)
 {
     const Config* cfig = gcfg->getConstPointoConfig();
