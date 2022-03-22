@@ -30,9 +30,6 @@ using namespace std;
 #define SEND_UNFILT_PHASE_DATA          ((char)0x04)
 #define SEND_PHASE_DATA                 ((char)0x05)
 
-
-//这是一行添加的注释
-
 class UDPConnect :public QObject
 {
     Q_OBJECT
@@ -45,19 +42,19 @@ public:
         return hasSend;
     }
 
-    QHostAddress AddressIP;
+    QHostAddress AddressIP; //IP地址
     QUdpSocket *socket = NULL;
-    int port;
-    int PeakNum;
-    int frequency;
+    int port;//端口号
+    int PeakNum;//峰值数
+    int frequency;//采样率
 
-    void changeFileNameOnce(QDateTime &systemDate, QTime &systemTime);
-    int sendData(CirQueue<float>* que,char dataType);
-    void loadSeriesData(char dataType);
-    void initSeriesParam(QLineSeries *line1, QLineSeries *line2, QLineSeries *line3);
+    void changeFileNameOnce(QDateTime &systemDate, QTime &systemTime);//初次生成存储文件名
+    int sendData(CirQueue<float>* que,char dataType); //下位机发送数据（上位机接收数据）
+    void loadSeriesData(char dataType); //加载波形数据
+    void initSeriesParam(QLineSeries *line1, QLineSeries *line2, QLineSeries *line3);//初始化波形图
 
-    void saveData2Bin(float* data, bool &now);
-    void saveData2Bin(float *data);
+    void saveData2Bin(float* data, bool &now); //存储到本地.bin文件
+    void saveData2Bin(float *data); //弃用
     //int& setSENDSIZE(int &sendsize);
 
     QLineSeries *m_lineSeries_1;
@@ -76,16 +73,15 @@ public:
 
     char Head[8] = {(char)0xF1,(char)0xF2,(char)0xF3,(char)0xF4};
 
-    long hasSend;
+    long hasSend; //已发送数据数
 
-    string saveFolder;
-    QString savePath;
+    string saveFolder; //存储目录(文件夹)
+    QString savePath;//弃用
 
-    bool isSave;
-    bool isSend;
+    bool isSave; //是否存储数据
+    bool isSend; //是否发送数据
 
-
-    size_t waveLength;
+    size_t waveLength; //显示波形的长度
 
     char DataType;
 
@@ -120,21 +116,21 @@ private:
     QTimer* udpTimer;
 
 
-    void saveOriData(const unsigned long & num);
-    void saveDemoduData(const unsigned long& num);
+    void saveOriData(const unsigned long & num); //存储三通道数据
+    void saveDemoduData(const unsigned long& num); //存储解调数据
 
 public slots:
-    void executeSendData(CirQueue<float>* que, char Type);
-    void changeSelectFBG(int FBG1,int FBG2, int FBG3);
+    void executeSendData(CirQueue<float>* que, char Type);//执行发送数据的slot
+    void changeSelectFBG(int FBG1,int FBG2, int FBG3);//选FBG的序号
 
-    void changeFileName();
-    void getFilename();
-    void executeData();
-    void stopSaveSlot();
-    void checkSaveSlot();
+    void changeFileName();//改变文件名(发下一个文件时)
+    void getFilename(); //产生下一个文件的文件名
+    void executeData(); //弃用
+    void stopSaveSlot();//停止保存
+    void checkSaveSlot();//定时器触发存储队列数据
 
 signals:
-    void sendNextFile();
+    void sendNextFile(); //发下一个文件的signal
 };
 
 #endif // UDPCONNECT_H
